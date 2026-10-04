@@ -1,7 +1,7 @@
 use std::{path::PathBuf, sync::OnceLock};
 
 use anyhow::Context;
-use clap::Parser;
+use clap::{CommandFactory, FromArgMatches};
 use colored::Colorize;
 use komodo_client::entities::{
   config::{
@@ -17,7 +17,13 @@ use mogh_secret_file::maybe_read_item_from_file;
 
 pub fn cli_args() -> &'static CliArgs {
   static CLI_ARGS: OnceLock<CliArgs> = OnceLock::new();
-  CLI_ARGS.get_or_init(CliArgs::parse)
+  CLI_ARGS.get_or_init(|| {
+    let matches = CliArgs::command()
+      .version(env!("CARGO_PKG_VERSION"))
+      .get_matches();
+    CliArgs::from_arg_matches(&matches)
+      .unwrap_or_else(|err| err.exit())
+  })
 }
 
 pub fn cli_env() -> &'static Env {

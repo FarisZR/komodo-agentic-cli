@@ -42,8 +42,24 @@ jobs:
       - name: Install native build dependencies
         run: sudo apt-get update && sudo apt-get install -y pkg-config libssl-dev
 
+      - name: Set CLI release version
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          cargo install cargo-edit --locked
+          cargo set-version -p komodo_cli "$VERSION"
+
       - name: Build
         run: cargo build --release --bin km --target ${{ matrix.platform.target }}
+
+      - name: Verify CLI release version
+        run: |
+          EXPECTED="komodo-cli ${RELEASE_TAG#v}"
+          ACTUAL="$(target/${{ matrix.platform.target }}/release/km --version)"
+          printf '%s\n' "$ACTUAL"
+          if [ "$ACTUAL" != "$EXPECTED" ]; then
+            echo "::error::Expected '$EXPECTED', got '$ACTUAL'"
+            exit 1
+          fi
 
       - name: Rename binary
         run: |
