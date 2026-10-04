@@ -10,7 +10,23 @@ A tool to build and deploy software across many servers.
 
 🦎 [Join the Discord](https://discord.gg/DRqE8Fvg5c)
 
-## About
+## Komodo Agentic CLI
+
+This fork adds agent-friendly CLI commands. Install its prebuilt Linux x86_64
+or ARM64 release with Homebrew 6 or newer:
+
+```sh
+brew tap fariszr/tap
+brew trust fariszr/tap
+brew install --cask komodo-agentic-cli
+```
+
+The executable is `km`. Review the [tap](https://github.com/FarisZR/homebrew-tap)
+before granting trust. Run `brew update` and
+`brew upgrade --cask komodo-agentic-cli` to install updates.
+See the [CLI README](bin/cli/README.md) for configuration and usage.
+
+## About Komodo
 
 The Komodo dragon is the largest living member of the [*Monitor* family of lizards](https://en.wikipedia.org/wiki/Monitor_lizard).
 

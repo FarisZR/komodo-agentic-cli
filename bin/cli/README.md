@@ -28,6 +28,32 @@ procedures) and use real SSH for everything that is just "run this command over 
 
 ## Install
 
+### Homebrew on Linux
+
+Install this agentic fork on Linux x86_64 or ARM64 with Homebrew 6 or newer:
+
+```sh
+brew update
+brew tap fariszr/tap
+brew trust fariszr/tap
+brew install --cask komodo-agentic-cli
+km --help
+```
+
+Review the [tap](https://github.com/FarisZR/homebrew-tap) before granting trust.
+Once tapped and trusted, use the short package name `komodo-agentic-cli`.
+The installed command is `km`.
+
+```sh
+brew update
+brew upgrade --cask komodo-agentic-cli
+```
+
+The tap tracks published releases automatically. These are the existing
+GNU/Linux release binaries with their glibc/OpenSSL runtime requirements.
+
+### Cargo
+
 ```sh
 cargo install komodo_cli
 ```
