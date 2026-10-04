@@ -148,7 +148,7 @@ async fn show_logs(
   };
 
   let mut table = Table::new();
-  table.load_preset(preset).set_header(
+  table.load_style(preset).set_header(
     ["ID", "Status", "Started", "Operator"]
       .map(|h| Cell::new(h).add_attribute(Attribute::Bold)),
   );

@@ -93,7 +93,7 @@ async fn list_variables(format: CliFormat) -> anyhow::Result<()> {
       };
 
       let mut table = Table::new();
-      table.load_preset(preset).set_header(
+      table.load_style(preset).set_header(
         ["Name", "Value", "Secret", "Description"]
           .map(|h| Cell::new(h).add_attribute(Attribute::Bold)),
       );

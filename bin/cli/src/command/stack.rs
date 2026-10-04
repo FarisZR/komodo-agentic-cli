@@ -129,7 +129,7 @@ async fn list_services(
   };
 
   let mut table = Table::new();
-  table.load_preset(preset).set_header(
+  table.load_style(preset).set_header(
     ["Service", "Image", "Container", "State"]
       .map(|h| Cell::new(h).add_attribute(Attribute::Bold)),
   );
@@ -281,7 +281,7 @@ async fn show_deploys(
   };
 
   let mut table = Table::new();
-  table.load_preset(preset).set_header(
+  table.load_style(preset).set_header(
     ["ID", "Operation", "Status", "Started", "Operator"]
       .map(|h| Cell::new(h).add_attribute(Attribute::Bold)),
   );
