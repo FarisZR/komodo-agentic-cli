@@ -1,0 +1,38 @@
+name: Update Homebrew tap
+
+# Keep the upstream-style release pipeline untouched. Observe its completion
+# instead: release:published fires before the binary uploads have finished.
+on:
+  workflow_run:
+    workflows: [Release CLI]
+    types: [completed]
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  dispatch:
+    if: >-
+      github.repository == 'FarisZR/komodo-agentic-cli' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_repository.full_name == github.repository &&
+        (github.event.workflow_run.event == 'release' ||
+         github.event.workflow_run.event == 'workflow_dispatch')))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      # No source checkout, artifact execution, or permissions on this repo.
+      - name: Sync latest stable releases in the tap
+        env:
+          GH_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::TAP_GITHUB_TOKEN is not configured. The tap's scheduled sync will still pick up this release."
+            exit 0
+          fi
+          printf '%s\n' '{"ref":"main"}' | gh api \
+            --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            repos/FarisZR/tap/actions/workflows/sync.yml/dispatches \
+            --input -
